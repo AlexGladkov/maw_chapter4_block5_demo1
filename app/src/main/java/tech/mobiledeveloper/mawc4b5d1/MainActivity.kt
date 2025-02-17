@@ -27,7 +27,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val imageLoader = PicassoDivImageLoader(applicationContext)
-        val configuration = DivConfiguration.Builder(imageLoader).build()
+        val configuration = DivConfiguration.Builder(imageLoader)
+            .actionHandler(SampleDivActionHandler())
+            .build()
 
         val handler = Handler()
 
