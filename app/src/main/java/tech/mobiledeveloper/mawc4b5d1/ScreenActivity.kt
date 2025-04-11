@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
-import android.view.View
 import android.widget.FrameLayout
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -14,35 +13,23 @@ import com.yandex.div.DivDataTag
 import com.yandex.div.core.Div2Context
 import com.yandex.div.core.DivConfiguration
 import com.yandex.div.core.view2.Div2View
-import com.yandex.div.data.DivParsingEnvironment
-import com.yandex.div.json.ParsingErrorLogger
 import com.yandex.div.picasso.PicassoDivImageLoader
-import com.yandex.div2.DivData
 import org.json.JSONException
-import org.json.JSONObject
 import tech.mobiledeveloper.mawc4b5d1.helpers.asDiv2DataWithTemplates
 
-class MainActivity : AppCompatActivity() {
+class ScreenActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_screen)
 
         val imageLoader = PicassoDivImageLoader(applicationContext)
         val configuration = DivConfiguration.Builder(imageLoader)
-            .actionHandler(SampleDivActionHandler {
-                applicationContext.startActivity(
-                    Intent(
-                        applicationContext,
-                        ScreenActivity::class.java
-                    )
-                )
-            })
             .build()
 
         val handler = Handler()
 
-        fetchJsonFromServer(url = "http://10.0.2.2:9090/") {
+        fetchJsonFromServer(url = "http://10.0.2.2:9090/screen") {
             handler.post {
                 try {
                     val divData = it?.asDiv2DataWithTemplates()

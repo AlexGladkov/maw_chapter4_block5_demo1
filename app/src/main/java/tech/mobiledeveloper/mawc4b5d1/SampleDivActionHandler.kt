@@ -8,17 +8,18 @@ import com.yandex.div.core.DivActionHandler
 import com.yandex.div.core.DivViewFacade
 import com.yandex.div.json.expressions.ExpressionResolver
 import com.yandex.div2.DivAction
-import org.json.JSONObject
 
-class SampleDivActionHandler : DivActionHandler() {
+class SampleDivActionHandler(val onClick: () -> Unit) : DivActionHandler() {
     override fun handleAction(
         action: DivAction,
         view: DivViewFacade,
         resolver: ExpressionResolver
     ): Boolean {
+        Log.e("TAG", "URL ${action.url}")
         val url =
             action.url?.evaluate(resolver) ?: return super.handleAction(action, view, resolver)
 
+        Log.e("TAG", "SCHEME ${url.scheme}")
         return if (url.scheme == SCHEME_SAMPLE && handleSampleAction(url, view.view.context)) {
             true
         } else {
@@ -27,9 +28,10 @@ class SampleDivActionHandler : DivActionHandler() {
     }
 
     private fun handleSampleAction(action: Uri, context: Context): Boolean {
+        Log.e("TAG", "HOST ${action.host}, QUERY ${action.query}")
         return when (action.host) {
             "toast" -> {
-                Toast.makeText(context, action.query?.replace("message=", "").orEmpty(), Toast.LENGTH_SHORT).show()
+                onClick.invoke()
                 true
             }
 
